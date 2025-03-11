@@ -20,9 +20,49 @@ int cp_main(int argc, char *argv[]) {
     
     int fd_dest = open(argv[2],O_CREAT|O_WRONLY|O_TRUNC,0644);
     if(fd_dest <0){
-        write(2,"\033[1;31m Couldn't open the destination file \033[0m\n",strlen("\033[1;31m Couldn't open the destination file \033[0m\n"));
-        return errno;
+        if(errno == EISDIR){
+                char* src_path =strdup(argv[1]);
+                if(src_path ==NULL) {
+                        fprintf(stderr,"\033[1;31m Memory allocation to copy source file path failed \033[0m \n ");
+                        free(src_path);
+                        return errno;
+                }
+
+      char* token = strtok(src_path,"/");
+      char* final_token = NULL;
+      while(token!=NULL){
+                final_token = token;
+                token = strtok(NULL, "/");
+        }
+        printf("output string %s \n",final_token);
+        size_t dest_path_len = strlen(argv[2]) + strlen(final_token) + 10;
+        char* dest_path = malloc(dest_path_len);
+        if(dest_path == NULL) {
+                fprintf(stderr,"\033[1;31m Memory allocation to destination file path failed \033[0m \n ");
+                        free(dest_path);
+                        return errno;
+                }
+                sprintf(dest_path + strlen(dest_path),"%s", argv[2]);
+                if(argv[2][strlen(argv[2]) -1] != '/' ) sprintf(dest_path + strlen(dest_path), "%s", "/");
+                sprintf(dest_path + strlen(dest_path), "%s", final_token);
+                printf("output dest file %s \n",dest_path);
+                fd_dest = open(dest_path,O_CREAT|O_WRONLY|O_TRUNC,0644);
+                if(fd_dest <0){
+                        printf("%d \n", ENOENT);
+                        free(src_path);
+                        free(dest_path);
+                        fprintf(stderr,"\033[1;31m Couldn't creat the destination file due to %d\033[0m\n", errno);
+                        return errno;
+                }
+                free(src_path);
+                free(dest_path);
+        }
+        else{
+                fprintf(stderr,"\033[1;31m Couldn't open the destination file\033[0m\n");
+                return errno;
+        }
     }
+    
     
     
     char buff[COUNT];
