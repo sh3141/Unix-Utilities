@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define LEN 100;
 int echo_main(int argc, char *argv[]) {
