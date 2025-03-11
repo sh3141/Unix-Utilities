@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 #define LEN 100;
 int echo_main(int argc, char *argv[]) {
