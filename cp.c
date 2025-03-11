@@ -36,7 +36,7 @@ int cp_main(int argc, char *argv[]) {
         }
         printf("output string %s \n",final_token);
         size_t dest_path_len = strlen(argv[2]) + strlen(final_token) + 10;
-        char* dest_path = malloc(dest_path_len);
+        char* dest_path = (char*)malloc(dest_path_len);
         if(dest_path == NULL) {
                 fprintf(stderr,"\033[1;31m Memory allocation to destination file path failed \033[0m \n ");
                         free(dest_path);
