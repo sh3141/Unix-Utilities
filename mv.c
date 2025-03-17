@@ -6,7 +6,7 @@
 #include <errno.h>
 
 #define COUNT 100
-int cp_main(int argc, char *argv[]) {
+int mv_main(int argc, char *argv[]) {
   if(argc !=3){
         fprintf(stderr, "\033[0m Usage: %s source file destination directory \033[0m",argv[0]);
         return errno;
